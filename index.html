@@ -1,0 +1,135 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Color Clock</title>
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        
+        <meta name="apple-mobile-web-app-title" content="Color Clock">
+        
+        <!-- iPhone, iOS 7+, retina -->
+        <link href="apple-touch-icon-120x120.png" sizes="120x120" 
+            rel="apple-touch-icon-precomposed">
+        <!-- iPhone 6 startup image -->
+        <link href="apple-touch-startup-image-750x1294.png"
+              media="(device-width: 375px) and (device-height: 667px)
+                     and (-webkit-device-pixel-ratio: 2)"
+              rel="apple-touch-startup-image">
+        
+        <style type="text/css" media="screen">
+            /* html and body fill screen, with no margin or padding, and a black background*/
+            html, body {
+                height:100%;
+                margin:0;
+                padding:0;
+            }
+            /*initial body color chosen to match splash screen*/
+            body {
+                background:#552A7F;
+            }
+
+            /* center time/hex vertically and horizontally
+             * offset top and left by 50%
+             * translate (matrix transform) up and right by half of size
+             * support transform in all browsers 
+             * hide initially to prevent FOUC (see script)*/
+            #clock {
+                position:absolute;
+                top:50%;
+                left:50%;
+                transform:          translate(-50%, -50%);
+                -webkit-transform:  translate(-50%, -50%);
+                -moz-transform:     translate(-50%, -50%);
+                -o-transform:       translate(-50%, -50%);
+                -ms-transform:      translate(-50%, -50%);
+                color:#ffffff;
+                display:none;
+            }
+
+            /* font attributes for time/hex */
+            .visibleText {
+                display:block;
+                font-size:15vw;
+                font-family:'HelveticaNeue-UltraLight', sans-serif;
+                text-align:center;
+                opacity:0.8;
+            }
+
+            /* hex/time selector buttons */
+            #selectors {
+                text-align:center;
+            }
+            /* inline-block to support width and height */
+            #selectors a {
+                display:inline-block;
+                width:49%;
+                height:30px;
+                background:#CCCCCC;
+                opacity:0.5;
+            }
+            /* active button is more prominent */
+            #selectors a.active {
+                opacity:0.8;
+            }
+            /* mouse over (for desktop users) is full opacity */
+            #selectors a:hover {
+                opacity:1;
+            }
+            .noSelect {
+                user-select:                 none;
+                -webkit-user-select:         none;
+                -khtml-user-select:          none;
+                -moz-user-select:            none;
+                -ms-user-select:             none;
+                -webkit-tap-highlight-color: 0;
+                -webkit-touch-callout:       none;
+            }
+        </style>
+
+        <script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="js/jquery.color.js" type="text/javascript" charset="utf-8"></script>
+
+        <script type="text/javascript" charset="utf-8">
+
+            
+                
+                
+                //change color of text based on background color
+                function blackOrWhiteTextColorBasedOnBackground() {
+                    //get color in rgb format, as well as locations of first and last char of the string
+                    //e.g. "rgb(255, 255, 255)", 4, and 17
+                    var color = $('body').css('background-color');
+                    var startIndex = color.indexOf('(') + 1;
+                    var lastIndex = color.indexOf(')');
+                    
+                    //pull string of numbers only from color (using start and end parens as indeces)
+                    //  and create array of values by splitting around comma delimiter
+                    var values = color.slice(startIndex,lastIndex).split(',');
+                    
+                    //using the brightness index, determine color contrast value
+                    var o = Math.round( ( (parseInt(values[0]) * 299) + 
+                                          (parseInt(values[1]) * 587) + 
+                                          (parseInt(values[2]) * 114) ) / 1000);
+                    //if brighter than the middle composite color value (255/2), make text black. else make white
+                    (o > 127) ? $('#hex, #time').css('color', 'black') : $('#hex, #time').css('color', 'white');
+                    //(o > 127) ? $('#time').css('color', 'black') : $('#time').css('color', 'white');
+                }
+            
+            
+        </script>
+    </head>
+    <body>
+        <div id="clock">
+            <div id="textDisplay">
+                <div id="time" class="visibleText noSelect">00:00:00</div>
+                <!--use inline style to prevent possible flash of content-->
+                <div id="hex" class="visibleText noSelect" style="display:none;">#000000</div>
+            </div>
+            <div id="selectors">
+                <a href="#time" class="active"></a> <a href="#hex"></a>
+            </div>
+        </div>
+    </body>
+</html>
