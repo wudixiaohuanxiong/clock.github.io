@@ -1,8 +1,9 @@
 
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Color Clock</title>
+<DOCTYPE HTML>
+	<HTML>
+		<head>
+			<link rel="stylesheet" type="text/css" href="color-clock.css">
+  <title>Color Clock</title>
         <meta http-equiv="Content-type" content="text/html; charset=utf-8">
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -19,85 +20,73 @@
               rel="apple-touch-startup-image">
         
         <style type="text/css" media="screen">
-            /* html and body fill screen, with no margin or padding, and a black background*/
-            html, body {
-                height:100%;
-                margin:0;
-                padding:0;
-            }
-            /*initial body color chosen to match splash screen*/
-            body {
-                background:#552A7F;
-            }
-
-            /* center time/hex vertically and horizontally
-             * offset top and left by 50%
-             * translate (matrix transform) up and right by half of size
-             * support transform in all browsers 
-             * hide initially to prevent FOUC (see script)*/
-            #clock {
-                position:absolute;
-                top:50%;
-                left:50%;
-                transform:          translate(-50%, -50%);
-                -webkit-transform:  translate(-50%, -50%);
-                -moz-transform:     translate(-50%, -50%);
-                -o-transform:       translate(-50%, -50%);
-                -ms-transform:      translate(-50%, -50%);
-                color:#ffffff;
-                display:none;
-            }
-
-            /* font attributes for time/hex */
-            .visibleText {
-                display:block;
-                font-size:15vw;
-                font-family:'HelveticaNeue-UltraLight', sans-serif;
-                text-align:center;
-                opacity:0.8;
-            }
-
-            /* hex/time selector buttons */
-            #selectors {
-                text-align:center;
-            }
-            /* inline-block to support width and height */
-            #selectors a {
-                display:inline-block;
-                width:49%;
-                height:30px;
-                background:#CCCCCC;
-                opacity:0.5;
-            }
-            /* active button is more prominent */
-            #selectors a.active {
-                opacity:0.8;
-            }
-            /* mouse over (for desktop users) is full opacity */
-            #selectors a:hover {
-                opacity:1;
-            }
-            .noSelect {
-                user-select:                 none;
-                -webkit-user-select:         none;
-                -khtml-user-select:          none;
-                -moz-user-select:            none;
-                -ms-user-select:             none;
-                -webkit-tap-highlight-color: 0;
-                -webkit-touch-callout:       none;
-            }
-        </style>
+      <style>
+       
+   
+       
+      </style> -->
+      <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>-->
 
         <script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="js/jquery.color.js" type="text/javascript" charset="utf-8"></script>
 
-        <script type="text/javascript" charset="utf-8">
 
-            
-                
-                
-                //change color of text based on background color
-                function blackOrWhiteTextColorBasedOnBackground() {
+      <script>
+        $(document).ready(function(){
+
+          function clockUpdate(){
+
+          var date = new Date();
+
+          var hours = date.getHours();
+          var minutes = date.getMinutes();
+          var seconds =date.getSeconds();
+
+
+          var timeString = padZero(hours) + ":" + padZero(minutes) + ":" + padZero(seconds);
+          console.log(hours + ":" + minutes + ":" + seconds);
+
+          $("#time").html( timeString  );
+          var color = "#" + timeToHex(hours, minutes,seconds);
+
+          $("#hex").html( color );
+
+          $('body').css(    {'background-color': color}   );
+
+          $('body').animate({'background-color': color},  800, function(){
+          blackOrWhiteTextColorBasedOnBackground();
+        
+        });
+};
+
+        clockUpdate(); 
+
+        setInterval(clockUpdate,1000);
+
+        function timeToHex (hours, minutes, seconds){
+
+          return padZero(    parseInt((hours/24) * 255, 10). toString(16))+
+ 
+          padZero(    parseInt(( minutes/60) * 255, 10). toString(16))+
+          padZero(    parseInt((seconds/60) * 255, 10). toString(16));
+
+        }
+
+
+
+
+        function padZero(val){
+
+
+          var value = val.toString();
+          return (value.length < 2) ? "0" + value : value;
+        }
+        $('#selectors a').click (function(){
+        	$($(this).attr('href')).show( ).siblings( ).hide();
+            $(this).addClass('active').siblings().removeClass('active');
+        });
+
+function blackOrWhiteTextColorBasedOnBackground() {
                     //get color in rgb format, as well as locations of first and last char of the string
                     //e.g. "rgb(255, 255, 255)", 4, and 17
                     var color = $('body').css('background-color');
@@ -117,19 +106,84 @@
                     //(o > 127) ? $('#time').css('color', 'black') : $('#time').css('color', 'white');
                 }
             
+
+
+          //var output;
+      
             
-        </script>
-    </head>
-    <body>
-        <div id="clock">
-            <div id="textDisplay">
-                <div id="time" class="visibleText noSelect">00:00:00</div>
-                <!--use inline style to prevent possible flash of content-->
-                <div id="hex" class="visibleText noSelect" style="display:none;">#000000</div>
-            </div>
-            <div id="selectors">
-                <a href="#time" class="active"></a> <a href="#hex"></a>
-            </div>
+
+
+          
+        
+
+        
+
+
+
+
+        } );
+        //setInterval(showString, 1000);
+
+      
+
+
+        /*  var x = 1;
+       function showString(){
+         
+        var y = 1;
+
+        console.log(new Date());
+
+       }
+        showString();setInterval(showString,1);
+
+var x = 1;
+        console.log("ready"):doIt();
+       
+       function doIt(){ console.log("done");
+
+       } 
+
+
+
+
+       doIt(2);      function console.log(arg){ return (3*arg);        6
+ } 
+
+
+ */
+
+
+        
+
+      </script>
+		</head>
+<body>
+
+	<!-- clock -->
+   <div id="clock">
+   	<div id="textDisplay">
+
+   	   <div id="time" class= "visibleText noSelect">
+   	   	00:00:00
+       </div>
+   	   <div id= "hex" class= "visibleText noSelect" style="display :none;">
+   	   	#000000
+    		</div>
+      </div>
+  
+   	    <div id= "selectors">
+
+          <a class= "active" href="#time"></a>
+            <a href=" #hex"  ></a> 
         </div>
-    </body>
-</html>
+
+      </div>
+
+
+
+	
+</body>
+
+	</html>
+
